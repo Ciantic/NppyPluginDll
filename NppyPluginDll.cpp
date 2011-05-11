@@ -9,7 +9,7 @@
  **/
 
 #include "stdafx.h"
-#include <iostream>
+// #include <iostream>
 #include <vector>
 #include <string>
 #include "NppyPluginDll.h"
@@ -101,8 +101,8 @@ vector<FuncItem> funcItems;
 // Long story short: C++ does not allow to create functions or 
 // lambda functions with valid C function pointers runtime
 // 
-// 32 oughta be enough for everybody!
-#define MAX_FUNCS 32
+// 64 oughta be enough for everybody!
+#define MAX_FUNCS 64
 vector<wstring> funcStatements;
 void func0() { runPython(funcStatements[0]); }
 void func1() { runPython(funcStatements[1]); }
@@ -136,7 +136,42 @@ void func28() { runPython(funcStatements[28]); }
 void func29() { runPython(funcStatements[29]); }
 void func30() { runPython(funcStatements[30]); }
 void func31() { runPython(funcStatements[31]); }
-PFUNCPLUGINCMD funcs[] = { func0, func1, func2, func3, func4, func5, func6, func7, func8, func9, func10, func11, func12, func13, func14, func15, func16, func17, func18, func19, func20, func21, func22, func23, func24, func25, func26, func27, func28, func29, func30, func31 };
+void func32() { runPython(funcStatements[32]); }
+void func33() { runPython(funcStatements[33]); }
+void func34() { runPython(funcStatements[34]); }
+void func35() { runPython(funcStatements[35]); }
+void func36() { runPython(funcStatements[36]); }
+void func37() { runPython(funcStatements[37]); }
+void func38() { runPython(funcStatements[38]); }
+void func39() { runPython(funcStatements[39]); }
+void func40() { runPython(funcStatements[40]); }
+void func41() { runPython(funcStatements[41]); }
+void func42() { runPython(funcStatements[42]); }
+void func43() { runPython(funcStatements[43]); }
+void func44() { runPython(funcStatements[44]); }
+void func45() { runPython(funcStatements[45]); }
+void func46() { runPython(funcStatements[46]); }
+void func47() { runPython(funcStatements[47]); }
+void func48() { runPython(funcStatements[48]); }
+void func49() { runPython(funcStatements[49]); }
+void func50() { runPython(funcStatements[50]); }
+void func51() { runPython(funcStatements[51]); }
+void func52() { runPython(funcStatements[52]); }
+void func53() { runPython(funcStatements[53]); }
+void func54() { runPython(funcStatements[54]); }
+void func55() { runPython(funcStatements[55]); }
+void func56() { runPython(funcStatements[56]); }
+void func57() { runPython(funcStatements[57]); }
+void func58() { runPython(funcStatements[58]); }
+void func59() { runPython(funcStatements[59]); }
+void func60() { runPython(funcStatements[60]); }
+void func61() { runPython(funcStatements[61]); }
+void func62() { runPython(funcStatements[62]); }
+void func63() { runPython(funcStatements[63]); }
+PFUNCPLUGINCMD funcs[] = { 
+	func0, func1, func2, func3, func4, func5, func6, func7, func8, func9, func10, func11, func12, func13, func14, func15, func16, func17, func18, func19, func20, func21, func22, func23, func24, func25, func26, func27, func28, func29, func30, func31,
+	func32, func33, func34, func35, func36, func37, func38, func39, func40, func41, func42, func43, func44, func45, func46, func47, func48, func49, func50, func51, func52, func53, func54, func55, func56, func57, func58, func59, func60, func61, func62, func63
+};
 
 
 // Add command menu function for plugin
