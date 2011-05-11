@@ -1,0 +1,13 @@
+Release/
+Debug/
+x64/
+Bin/
+*.suo
+*.cache
+*.old
+*.user
+*.opt
+*.plg
+*.aps
+*.ncb
+~$*
