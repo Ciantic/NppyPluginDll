@@ -18,9 +18,6 @@
 
 using namespace std;
 
-
-#define ABOUT_TITLE TEXT("About")
-
 #define PYINITLAZY() if (!is_pluginInited) initPyPlugin();
 
 // Is the python plugin initialized?
