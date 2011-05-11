@@ -1,10 +1,9 @@
 NppyPluginDll
 =============
 
-General DLL plugins for Python.
+General Python Plugins DLL for Notepad++
 
-Created by Jari Pennanen in May 2011
-I hereby place this to public domain.
+Created by Jari Pennanen in May 2011, I hereby place this to public domain.
 
 Usage
 -----
