@@ -10,4 +10,5 @@ Bin/
 *.plg
 *.aps
 *.ncb
+*.pyc
 ~$*
