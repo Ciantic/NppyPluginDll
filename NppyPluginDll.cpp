@@ -9,7 +9,6 @@
  **/
 
 #include "stdafx.h"
-// #include <iostream>
 #include <vector>
 #include <string>
 #include "NppyPluginDll.h"
@@ -42,35 +41,35 @@ NppData nppData;
 
 void runPython(wstring script, int messageType)
 {
-    if (!has_pythonScript)
+	if (!has_pythonScript)
 		return;
 
-    PythonScript_Exec pse;
-    pse.structVersion = 1;
+	PythonScript_Exec pse;
+	pse.structVersion = 1;
 
-    pse.completedEvent = NULL;
-    pse.deliverySuccess = FALSE;
-    pse.flags = 0;
+	pse.completedEvent = NULL;
+	pse.deliverySuccess = FALSE;
+	pse.flags = 0;
 	pse.script = script.c_str();
 
-    TCHAR pluginName[] = TEXT("PythonScript.dll");
-    CommunicationInfo commInfo;
-    commInfo.internalMsg = messageType;
+	TCHAR pluginName[] = TEXT("PythonScript.dll");
+	CommunicationInfo commInfo;
+	commInfo.internalMsg = messageType;
 	commInfo.srcModuleName = pluginName; // TODO: Not exactly the DLL name!
 
-    commInfo.info = reinterpret_cast<void*>(&pse);
+	commInfo.info = reinterpret_cast<void*>(&pse);
 
-    BOOL delivery = SendMessage(nppData._nppHandle, NPPM_MSGTOPLUGIN, reinterpret_cast<WPARAM>(pluginName), reinterpret_cast<LPARAM>(&commInfo));
-    if (!delivery)
-    {
-        MessageBox(NULL, TEXT("Python Script Plugin not found.  Please install the Python Script plugin from Plugin Manager"), pluginName, 0);
-        has_pythonScript = false;
-    }
-    else if (!pse.deliverySuccess)
-    {
+	BOOL delivery = SendMessage(nppData._nppHandle, NPPM_MSGTOPLUGIN, reinterpret_cast<WPARAM>(pluginName), reinterpret_cast<LPARAM>(&commInfo));
+	if (!delivery)
+	{
+		MessageBox(NULL, TEXT("Python Script Plugin not found.  Please install the Python Script plugin from Plugin Manager"), pluginName, 0);
+		has_pythonScript = false;
+	}
+	else if (!pse.deliverySuccess)
+	{
 		MessageBox(NULL, TEXT("Python Script Plugin did not accept the script"), pluginName, 0);
-        has_pythonScript = false;
-    }
+		has_pythonScript = false;
+	}
 }
 
 // Initialize python plugin
