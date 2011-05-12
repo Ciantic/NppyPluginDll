@@ -1,7 +1,7 @@
 /**
  * NppyPluginDll
  * 
- * General DLL plugins for Python
+ * General Python Plugins DLL for Notepad++
  * 
  * Created by Jari Pennanen in May 2011
  * I hereby place this to public domain.
@@ -31,6 +31,7 @@ wstring pluginIni;
 
 // Plugin details
 wstring pluginImports;
+wstring pluginInitExec;
 wstring pluginName = TEXT("My Plugin");
 wstring pluginAbout = TEXT("Created by Foo Bar");
 wstring pluginAboutTitle /* = pluginName */;
@@ -76,12 +77,19 @@ void runPython(wstring script, int messageType)
 void initPyPlugin()
 {
 	wstring syspath = wstring(TEXT("sys.path.append('")) + pluginDirectory + wstring(TEXT("')"));
-	wstring imports;
-	if (!pluginImports.empty())
-		imports = wstring(TEXT("import ")) + pluginImports;
-
 	runPython(syspath, PYSCR_EXECSTATEMENT);
-	runPython(imports, PYSCR_EXECSTATEMENT);
+
+	if (!pluginImports.empty()) {
+		wstring imports;
+		imports = wstring(TEXT("import ")) + pluginImports;
+		runPython(imports, PYSCR_EXECSTATEMENT);
+	}
+
+	if (!pluginInitExec.empty()) {
+		runPython(pluginInitExec, PYSCR_EXECSTATEMENT);
+	}
+
+	is_pluginInited = TRUE;
 }
 
 void runPython(wstring stmt)
@@ -214,6 +222,11 @@ void about()
 // Read [plugin] section of ini
 void readPluginDetailsIni()
 {
+	// Get [plugin] "initexec" key
+	WCHAR pluginInitExec_[4096];
+	GetPrivateProfileString(TEXT("plugin"), TEXT("initexec"), TEXT(""), pluginInitExec_, 4096, pluginIni.c_str());
+	pluginInitExec = pluginInitExec_;
+
 	// Get [plugin] "imports" key
 	WCHAR pluginImports_[4096];
 	GetPrivateProfileString(TEXT("plugin"), TEXT("imports"), TEXT(""), pluginImports_, 4096, pluginIni.c_str());
