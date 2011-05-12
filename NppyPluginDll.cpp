@@ -82,8 +82,7 @@ void initPyPlugin()
 	runPython(syspath, PYSCR_EXECSTATEMENT);
 
 	if (!pluginImports.empty()) {
-		wstring imports;
-		imports = wstring(TEXT("import ")) + pluginImports;
+		wstring imports = TEXT("import ") + pluginImports;
 		runPython(imports, PYSCR_EXECSTATEMENT);
 	}
 
