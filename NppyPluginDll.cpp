@@ -36,6 +36,8 @@ wstring pluginName = TEXT("My Plugin");
 wstring pluginAbout = TEXT("Created by Foo Bar");
 wstring pluginAboutTitle /* = pluginName */;
 
+bool pluginInitOnStartup = FALSE;
+
 // Npp handles etc.
 NppData nppData;
 
@@ -94,6 +96,8 @@ void initPyPlugin()
 
 void runPython(wstring stmt)
 {
+	// TODO: Lazy init is not wanted always, some plugins might rely more on the
+	// events than function commands. We need to have startup exec anyway.
 	PYINITLAZY();
 	runPython(stmt, PYSCR_EXECSTATEMENT);
 }
@@ -222,6 +226,8 @@ void about()
 // Read [plugin] section of ini
 void readPluginDetailsIni()
 {
+	pluginInitOnStartup = !!GetPrivateProfileInt(TEXT("plugin"), TEXT("initonstartup"), 0, pluginIni.c_str());
+
 	// Get [plugin] "initexec" key
 	WCHAR pluginInitExec_[4096];
 	GetPrivateProfileString(TEXT("plugin"), TEXT("initexec"), TEXT(""), pluginInitExec_, 4096, pluginIni.c_str());
@@ -272,14 +278,15 @@ void readPluginFuncsIni()
 		// Get function details
 		WCHAR funcName[256];
 		WCHAR execStatement[1024];
-		int mods = 0, initcheck = 0;
+		int mods = 0;
+		bool initcheck = false;
 		UCHAR key;
 
 		GetPrivateProfileString(secName, TEXT("exec"), TEXT("console.write('Please type exec statement')"), execStatement, 1024, pluginIni.c_str());
 		GetPrivateProfileString(secName, TEXT("name"), TEXT("(No name)"), funcName, 256, pluginIni.c_str());
 		mods = GetPrivateProfileInt(secName, TEXT("modifiers"), 0, pluginIni.c_str());
 		key = (UCHAR) GetPrivateProfileInt(secName, TEXT("key"), NULL, pluginIni.c_str());
-		initcheck = GetPrivateProfileInt(secName, TEXT("init"), 0, pluginIni.c_str());
+		initcheck = !!GetPrivateProfileInt(secName, TEXT("init"), 0, pluginIni.c_str());
 
 		// Buffer overflow
 		if (i >= MAX_FUNCS)
@@ -379,6 +386,9 @@ extern "C" __declspec(dllexport) void beNotified(SCNotification *notifyCode)
 	switch(notifyCode->nmhdr.code)
 	{
 		case NPPN_READY:
+			if (pluginInitOnStartup) {
+				PYINITLAZY();
+			}
 			break;
 	}
 }
