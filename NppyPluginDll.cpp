@@ -253,7 +253,7 @@ void readPluginFuncsIni()
 		GetPrivateProfileString(secName, TEXT("name"), TEXT("(No name)"), funcName, 256, pluginIni.c_str());
 		mods = GetPrivateProfileInt(secName, TEXT("modifiers"), 0, pluginIni.c_str());
 		key = (UCHAR) GetPrivateProfileInt(secName, TEXT("key"), NULL, pluginIni.c_str());
-		initcheck = !!GetPrivateProfileInt(secName, TEXT("init"), 0, pluginIni.c_str());
+		initcheck = !!GetPrivateProfileInt(secName, TEXT("checked"), 0, pluginIni.c_str());
 
 		// Buffer overflow
 		if (i >= MAX_FUNCS)
